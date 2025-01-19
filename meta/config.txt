@@ -1,0 +1,2 @@
+SITENAME=Site Name
+ROOT=https://benrosenberg.github.io/course-notes-ssg

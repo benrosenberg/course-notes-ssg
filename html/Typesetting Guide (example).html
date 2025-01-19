@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css"
+            integrity="sha384-zh0CIslj+VczCZtlzBcjt5ppRcsAmDnRem7ESsYwWwg3m/OaJ2l4x7YBZl9Kxxib"
+            crossorigin="anonymous"
+        />
+        <script src="http://localhost:2000/meta/math.js"></script>
+        <script
+            defer
+            src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.js"
+            integrity="sha384-Rma6DA2IPUwhNxmrB/7S3Tno0YY7sFu9WSYMCuulLhIqYSGZ2gKCJWIqhBWqMQfh"
+            crossorigin="anonymous"
+            onload="render_katex_math()"
+        ></script>
+        <link
+            rel="stylesheet"
+            disabled=""
+            title="hljs-light"
+            href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/vs.min.css"
+        />
+        <link
+            rel="stylesheet"
+            title="hljs-dark"
+            href="http://localhost:2000/meta/hljs-gruvbox-dark.css"
+        />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+        <title>Typesetting Guide (example)</title>
+        <link rel="stylesheet" href="http://localhost:2000/meta/style.css" />
+        <link rel="icon" type="image/png" href="http://localhost:2000/images/favicon.png">
+    </head>
+    <body>
+        <span style="display: none" id="SITE_ROOT_TAG">http://localhost:2000</span>
+        <!-- Popout menu -->
+        <nav class="menu" id="menu">
+            <div class="menu-header">
+                <h2><a href="http://localhost:2000/html/README.html">Site Name</a></h2>
+            </div>
+            <div class="menu-content">
+                <ul><li><a href="http://localhost:2000/html/README.html">README</a><li class="currentpage"><a class="currentpage" href="http://localhost:2000/html/Typesetting Guide (example).html">Typesetting Guide (example)</a></ul>
+            </div>
+            <div class="menu-footer">
+                <!-- <p>Menu Footer</p> -->
+                <p>
+                    <span class="theme-toggle"
+                        ><button
+                            class="theme-toggle-button"
+                            onclick="toggleColorMode();"
+                        >
+                            switch theme
+                        </button></span
+                    >
+                </p>
+            </div>
+        </nav>
+
+        <!-- Main content area -->
+        <div class="main-wrapper" id="main">
+            <!-- Hamburger menu button -->
+            <button class="hamburger" id="hamburger">☰</button>
+            <div class="main"><h1>The Right Way to Typeset: Getting started with Pandoc Markdown</h1>
+<p>(<a href="https://benrosenberg.info/posts/typesetting-guide/index.html">original</a>)</p>
+<p><a href="https://benrosenberg.info">Ben Rosenberg</a>, 3/2/2022</p>
+<h2>Introduction</h2>
+<p>This guide is meant for people who have little to no experience with non-WYSIWYG (What You See Is What You Get) editing. I hope that it sheds some light on how easy it can be to use non-WYSIWYG formats and that it helps people create a setup that works for them insofar as efficient typesetting is concerned.</p>
+<p>Rather than Microsoft Word or Pages or Google Docs or what have you, this tutorial will teach you how to use Markdown, which is a versatile form of plaintext that can be compiled into other formats (like PDFs or HTML) or used as is (as in a default GitHub README.md file). I'm not going to try to justify the use of plaintext over something like MS Word or its ilk, as there are many other opinion pieces that do as good a job as I could or better. My hope is that after reading through this guide and following along, you'll come to that realization yourself.</p>
+<p>We'll begin with some basics of Markdown, and then go into setting up a nice editing environment to make your life easier. After that we'll look at some more complex things that you may want to look into after you're comfortable with everything else.</p>
+<h1>Prerequisites</h1>
+<p>In order for everything to work as intended on your machine, you'll need to install some packages. The first thing is <a href="https://pandoc.org/installing.html"><code>pandoc</code></a>.</p>
+<p>If you don't plan on compiling to PDF, and only want to compile to HTML, then you don't need to install <equation>\LaTeX</equation>. But if you do want to compile to PDF (and by extension, use <equation>\LaTeX</equation> in compilation) you should install <a href="https://tug.org/texlive/acquire-netinstall.html">TeX Live</a>, which is a bundle of <equation>\LaTeX</equation> packages that work for 99% of use cases. If you aren't running Windows please see <a href="https://tug.org/texlive/quickinstall.html">this page</a> instead.</p>
+<h1>Markdown basics</h1>
+<p>All flavors of Markdown have the same basic syntax (for the most part). The specific type of Markdown we'll be looking at in this tutorial is Pandoc Markdown, described <a href="https://pandoc.org/MANUAL.html#pandocs-markdown">here</a> in more depth. Here is the most relevant subset of the syntax for Pandoc Markdown:</p>
+<ul>
+<li>If you want to make <strong>bold text</strong>, use double asterisks or double underscores like so: <code>**bold text**</code>, <code>__bold text__</code></li>
+<li>If you want to make <em>italicized text</em>, use single asterisks or single underscores like so: <code>*italicized text*</code>, <code>_italicized text_</code></li>
+<li>If you want to make text that is both <em><strong>bold and italicized</strong></em>, use triple asterisks (<em>not</em> underscores) like so: <code>***bold and italicized***</code></li>
+<li>If you want to make text that is <code>monospace</code>, use backticks like so: <code>`monospace`</code><ul>
+<li>If you want to make a full code block then you'll want to use triple backticks in an unindented portion of your document (i.e., not in a list). You can also specify a certain language to use syntax highlighting for; in the example below, Python is chosen.</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-md">```python
+from functools import cache
+
+@cache
+def fib(n):
+    if n &lt;= 1: return 1
+    return fib(n-1) + fib(n-2)
+```
+</code></pre>
+<p>This produces the following:</p>
+<pre><code class="language-python">from functools import cache
+
+@cache
+def fib(n):
+    if n &lt;= 1: return 1
+    return fib(n-1) + fib(n-2)
+</code></pre>
+<ul>
+<li>To use various headers, use hashtags (<code>#</code>). One hashtag will give you the largest header, two will give you the second largest, etc.:</li>
+</ul>
+<pre><code class="language-md"># Section
+
+## Subsection
+
+### Subsubsection
+
+#### Subsubsubsection
+
+##### Subsubsubsection
+
+###### Subsubsubsubsection
+
+...
+</code></pre>
+<ul>
+<li>To create a list, either use hyphens for an unordered list or numbers for a numbered list:</li>
+</ul>
+<pre><code class="language-md"> - This is an element of an unordered list
+ - So is this
+    - Indent to make sublists
+    - This is also an element of the same sublist
+ - Back to the original list
+
+1. This is the first element of an ordered list
+2. This is the second
+</code></pre>
+<ul>
+<li>To create <a href="https://en.wikipedia.org/wiki/Hyperlink">hyperlinks</a>, use square brackets and parentheses like so: <code>[link to Google](https://www.google.com)</code><ul>
+<li>To insert an image, you can use similar syntax. Just include an exclamation point like so: <code>![image caption](https://image-location.tld)</code></li>
+</ul>
+</li>
+<li>To add document metadata, use YAML at the top of your document:</li>
+</ul>
+<pre><code class="language-yaml">---
+title: My Document
+author: Ben Rosenberg
+date: &quot;3/2/2022&quot;
+---
+</code></pre>
+<p>Alternatively, if compiling to PDF, you can specify the date to be today's day using:</p>
+<pre><code class="language-yaml">date: \today
+</code></pre>
+<p>The <code>\today</code> command is a <equation>\LaTeX</equation> command that returns the current date. More information about how <equation>\LaTeX</equation> and Pandoc Markdown interact will be covered in the last section.</p>
+<ul>
+<li>Speaking of <equation>\LaTeX</equation>, the last important thing to be familiar with is how to typeset math. Pandoc recognizes dollar signs as delimiters for mathematical expressions (so make sure you escape them with backslashes if you don't want to start typing in <equation>\LaTeX</equation> math!). I'm not going to go over <equation>\LaTeX</equation> in this guide, but you can read up on how to typeset mathematical expressions with <equation>\LaTeX</equation> syntax here: <a href="http://tug.ctan.org/info/short-math-guide/short-math-guide.pdf">PDF</a></li>
+</ul>
+<h1>Setting up your environment</h1>
+<p>Now that you know all the relevant syntax, you're ready to start writing Markdown on your own. But in order to do so, you'll need a decent editor. For programmers reading this, your general code editor should be fine -- after all, Markdown is basically just another programming language (although it may not be Turing complete). But I do have two recommendations either way:</p>
+<h2>Choosing your editor</h2>
+<p>My first recommendation is <a href="https://code.visualstudio.com/">Visual Studio Code</a> (VSCode). VSCode is a reliable code editor (as the name would imply) and is great for all sorts of things, but is also really good for typesetting in Markdown. The real benefit of VSCode is the ability to use extensions to get additional features and improve your user experience. There are many extensions which make editing Markdown painless (and maybe even fun!). I offer my recommendations for some of said extensions in the next section.</p>
+<p>The second recommendation I have is <a href="https://www.vim.org/">Vim</a>. Vim is a command-line editor with a notoriously <a href="editor_learning_curves.png">high learning curve</a> that can be very powerful once you learn to use it. There's a handy utility that gets installed with it that helps you learn how to use the editor: type <code>vimtutor</code> in your terminal to open it.</p>
+<p>In my opinion it's good to learn Vim to have the ability to edit in it, as it's probably the fastest CLI editor to use (maybe Emacs is close) and its progenitor <code>vi</code> comes installed by default on basically every UNIX-like OS. If you're <code>ssh</code>-ing into a headless machine, you probably won't be able to edit using VSCode, so it's good to know your way around Vim.</p>
+<p>If you're not a programmer and don't plan on using the terminal at all, Vim is likely not for you. I'd stick with VSCode. Also, importantly, I do <em>not</em> recommend using Vim if you are running Windows. UNIX-like environments are where Vim shines, not within the cursed GUI Vim that is provided for Windows users.</p>
+<h2>Getting comfortable</h2>
+<p>To make yourself comfortable in the editor of your choice, it's always a good idea to choose a color scheme and some add-ons. How this works will vary depending on what editor you chose.</p>
+<h3>VSCode Extensions</h3>
+<p>In VSCode, there's an extension panel that you can get to by hitting <code>Ctrl+Shift+X</code> on your keyboard (unless you've bound that to something else, in which case you probably already know what to hit instead). In the search bar at the top, try looking up &quot;themes&quot; and choosing one that you like. If you're going to spend hours staring at the same application, at the very least it should look good, right? (I personally use the <a href="https://marketplace.visualstudio.com/items?itemName=sainnhe.gruvbox-material">Gruvbox Material</a> extension, which I find to be easy on the eyes.)</p>
+<p>Next, there are some extensions that I specifically recommend for Markdown editing:</p>
+<ul>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=DougFinke.vscode-pandoc">vscode-pandoc</a>: <strong>this is the most important one!</strong> After installing this extension, when working on a file, you can compile directly to PDF (or HTML) with a couple keystrokes. Save your file with <code>Ctrl+S</code>, and then hit <code>Ctrl+K</code> and then <code>P</code>. This will bring up a list of options to compile to, from which you can choose either PDF, DOCX (not recommended), or HTML.</li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=sleistner.vscode-fileutils">File Utils</a>: makes certain things that should be easy but are difficult by default in VSCode, easy again. If you want to rename a file while working on it, this extension will let you do that without having to &quot;Save As&quot;.</li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=yzhang.markdown-all-in-one">Markdown All In One</a>: this is also really useful. Hitting <code>Ctrl+K+V</code> from within a Markdown file you're editing once you've installed this extension will pop up a preview of your file to the side. Very useful for making sure it looks good before compiling! (Note that some of the <equation>\LaTeX</equation> may not render as this is an HTML preview and not a PDF preview.)</li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=mushan.vscode-paste-image">Paste Image</a>: this extension will allow you to paste images from your clipboard (e.g., after screenshotting with <code>Win+Shift+S</code>) into your Markdown file (with the correct syntax) using <code>Ctrl+Alt+V</code>. The extension saves the image to the current working directory so it's accessible from the file, but you can also change that setting in the Settings menu (<code>Ctrl+,</code>).</li>
+</ul>
+<h2>Vim plugins</h2>
+<p>Much like the <code>vscode-pandoc</code> extension above, you need a way to actually compile your Markdown when working with Vim as well. There are ways to do it from within Vim itself, but I personally just made two different Python scripts that I call depending on whether I want to compile to HTML or PDF, and added aliases for both of them within my <code>.zshrc</code> (it would be <code>.bashrc</code> for people using Bash instead of Zsh). If you want to see the general syntax for calling <code>pandoc</code> from the command line, just run <code>man pandoc</code> or read the manual <a href="https://pandoc.org/MANUAL.html">here</a>.</p>
+<p>Besides that, I'm not really a whiz at Vim, but I do use the following general setup:</p>
+<ul>
+<li><a href="https://neovim.io/">Neovim</a></li>
+<li><code>syntax enable</code> in the editor config to enable syntax highlighting (if you use Neovim this is enabled by default)</li>
+<li><code>set number</code> in the editor config to enable line numbering (if you use Neovim this is also enabled by default)</li>
+</ul>
+<p>I also recommend that, similarly to VSCode, you make the colors of your terminal look nice. You can generally do this in your terminal settings. If you use <a href="https://st.suckless.org/"><code>st</code></a> like me, it's a little more complicated as you need to edit a config makefile manually and then recompile.</p>
+<h1>Where to go from here</h1>
+<p>Now you should have a decent setup. All that's left is to go over some more intricate details of Pandoc Markdown.</p>
+<h2>HTML: Custom CSS</h2>
+<p>If you're planning on compiling mainly to HTML, you'll likely want to add some custom CSS to go with your files. You can choose a custom CSS file to use in VSCode when compiling by going to the Settings menu (<code>Ctrl+,</code>) and changing the setting under Extensions <equation>\rightarrow</equation> Pandoc Option Configuration <equation>\rightarrow</equation> Pandoc: HTML Opt String. I personally have the following:</p>
+<pre><code>-s -c C:\path\to\my\css\file\my_css.css -t html5 --toc --katex
+</code></pre>
+<p>You can do the same kind of thing on the command line (i.e., if using Vim) by prepending <code>pandoc &lt;my_file_name&gt;</code> to the above.</p>
+<h2>PDF: Using more <equation>\LaTeX</equation> in your Markdown; using specific <equation>\LaTeX</equation> packages</h2>
+<p>Once you really get the hang of things, you may want to get more functionality out of your files and may want to use some more <equation>\LaTeX</equation> packages. The first thing to note is that Pandoc Markdown gets turned into <equation>\LaTeX</equation> on the backend when you compile to PDF! This means that you can insert all sorts of <equation>\LaTeX</equation> stuff in the file and it'll work as intended. For example:</p>
+<pre><code class="language-latex">$$\begin{aligned}
+    \sum_{i=1}^n \frac{1}{2} &amp;= \frac{1}{2} + \sum_{i=2}^n \frac{1}{2} \\
+    &amp;= \frac{1}{2} + \frac{1}{2} + \sum_{i=3}^n \frac{1}{2} \\
+    &amp;= \underbrace{\frac{1}{2} + \cdots + \frac{1}{2}}_{\text{$n$ times}} \\
+    &amp;= \frac{n}{2}
+\end{aligned}$$
+</code></pre>
+<p>...will turn into the following when inserted directly into Pandoc Markdown:</p>
+<p><equation type="display">\begin{aligned} \sum_{i=1}^n \frac{1}{2} &amp;= \frac{1}{2} + \sum_{i=2}^n \frac{1}{2} \\ &amp;= \frac{1}{2} + \frac{1}{2} + \sum_{i=3}^n \frac{1}{2} \\ &amp;= \frac{1}{2} + \frac{1}{2} + \frac{1}{2} + \sum_{i=4}^n \frac{1}{2} \\ &amp;= \underbrace{\frac{1}{2} + \cdots + \frac{1}{2}}_{n \text{ times}} \\ &amp;= \frac{n}{2} \end{aligned}</equation></p>
+<p>Note that while all environments that would usually work in <equation>\LaTeX</equation> are functional when you compile to PDF, the same cannot be said for <equation>\KaTeX</equation>. For instance, while the <code>aligned</code> environment works for <equation>\KaTeX</equation>, the <code>align*</code> environment does not.</p>
+<p>If you want to use packages in your document like you would in normal <equation>\LaTeX</equation>, the <code>\usepackage{...}</code> syntax is the same. The only difference is that you declare all the stuff you want to use in the YAML header like so:</p>
+<pre><code class="language-yaml">---
+header-includes: |
+    \usepackage{A}
+    \usepackage{B}
+    ...
+    \usepackage{C}
+---
+</code></pre>
+<p>This way, you lose basically no functionality when going from <equation>\LaTeX</equation> to Markdown. Markdown is just easier syntax with all the same features of <equation>\LaTeX</equation>!</p>
+<hr />
+<p>And that's the end. I hope you enjoyed reading this guide (and maybe following along as well). I wish you the best of luck in your typesetting endeavors!</p>
+</div>
+        </div>
+
+        <footer class="footer" id="mainfooter">
+            <p
+                xmlns:cc="http://creativecommons.org/ns#"
+                xmlns:dct="http://purl.org/dc/terms/"
+            >
+                <a
+                    property="dct:title"
+                    rel="cc:attributionURL"
+                    href="https://benrosenberg.info"
+                    class="link-problem"
+                    >benrosenberg.info</a
+                >
+                by <span property="cc:attributionName">Ben Rosenberg</span> is
+                licensed under
+                <a
+                    href="https://creativecommons.org/licenses/by/4.0/?ref=chooser-v1"
+                    target="_blank"
+                    rel="license noopener noreferrer"
+                    style="display: inline-block"
+                    class="link-problem"
+                    >CC BY 4.0<img
+                        class="cc-svg"
+                        style="
+                            height: 20px !important;
+                            margin-left: 3px;
+                            vertical-align: middle;
+                        "
+                        src="http://localhost:2000/images/cc_dark.svg"
+                        alt="" /><img
+                        class="by-svg"
+                        style="
+                            height: 20px !important;
+                            margin-left: 3px;
+                            vertical-align: middle;
+                        "
+                        src="http://localhost:2000/images/by_dark.svg"
+                        alt=""
+                /></a>
+            </p>
+        </footer>
+        <script src="http://localhost:2000/meta/menu.js"></script>
+        <script src="http://localhost:2000/meta/theme.js"></script>
+        <script>
+            window.onload = function () {
+                hljs.highlightAll();
+            };
+        </script>
+    </body>
+</html>

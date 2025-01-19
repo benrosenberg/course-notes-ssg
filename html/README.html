@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css"
+            integrity="sha384-zh0CIslj+VczCZtlzBcjt5ppRcsAmDnRem7ESsYwWwg3m/OaJ2l4x7YBZl9Kxxib"
+            crossorigin="anonymous"
+        />
+        <script src="http://localhost:2000/meta/math.js"></script>
+        <script
+            defer
+            src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.js"
+            integrity="sha384-Rma6DA2IPUwhNxmrB/7S3Tno0YY7sFu9WSYMCuulLhIqYSGZ2gKCJWIqhBWqMQfh"
+            crossorigin="anonymous"
+            onload="render_katex_math()"
+        ></script>
+        <link
+            rel="stylesheet"
+            disabled=""
+            title="hljs-light"
+            href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/vs.min.css"
+        />
+        <link
+            rel="stylesheet"
+            title="hljs-dark"
+            href="http://localhost:2000/meta/hljs-gruvbox-dark.css"
+        />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+        <title>README</title>
+        <link rel="stylesheet" href="http://localhost:2000/meta/style.css" />
+        <link rel="icon" type="image/png" href="http://localhost:2000/images/favicon.png">
+    </head>
+    <body>
+        <span style="display: none" id="SITE_ROOT_TAG">http://localhost:2000</span>
+        <!-- Popout menu -->
+        <nav class="menu" id="menu">
+            <div class="menu-header">
+                <h2><a href="http://localhost:2000/html/README.html">Site Name</a></h2>
+            </div>
+            <div class="menu-content">
+                <ul><li class="currentpage"><a class="currentpage" href="http://localhost:2000/html/README.html">README</a><li><a href="http://localhost:2000/html/Typesetting Guide (example).html">Typesetting Guide (example)</a></ul>
+            </div>
+            <div class="menu-footer">
+                <!-- <p>Menu Footer</p> -->
+                <p>
+                    <span class="theme-toggle"
+                        ><button
+                            class="theme-toggle-button"
+                            onclick="toggleColorMode();"
+                        >
+                            switch theme
+                        </button></span
+                    >
+                </p>
+            </div>
+        </nav>
+
+        <!-- Main content area -->
+        <div class="main-wrapper" id="main">
+            <!-- Hamburger menu button -->
+            <button class="hamburger" id="hamburger">☰</button>
+            <div class="main"><h1>course-note-ssg</h1>
+<p>Simple static site generator for course notes.</p>
+<p>Takes one markdown file for each lecture.</p>
+<h2>Expected file structure</h2>
+<pre><code class="language-plaintext">.
+├── html
+│   └── &lt;html files will be generated here&gt;
+├── images
+│   ├── by.svg
+│   ├── by_dark.svg
+│   ├── cc.svg
+│   ├── cc_dark.svg
+│   └── favicon.png
+├── md
+│   └── &lt;markdown files go here&gt;
+└── meta
+    ├── config.txt
+    ├── hljs-gruvbox-dark.css
+    ├── math.js
+    ├── menu.js
+    ├── redirect.html
+    ├── style.css
+    ├── template.html
+    └── theme.js
+</code></pre>
+<h2>Methodology</h2>
+<p>High-level steps:</p>
+<ol start="0">
+<li>Delete all HTML files in the output HTML directory</li>
+<li>Generate index of files:<ul>
+<li>Any files with the <code>.md</code> extension in the markdown file directory (<code>md</code>) are picked up</li>
+<li>Files are ordered alphabetically by filename</li>
+<li>This index is used in the left-hand navigation bar</li>
+</ul>
+</li>
+<li>Create template based on index and other inputs (CSS, static content, etc.):<ul>
+<li>Other inputs include JS files for KaTeX math rendering and highlight.js code highlighting. Both of these are delivered via CDN</li>
+<li>Additionally, some local JS files are loaded to help with the left-hand menu, theming, and applying the KaTeX math rendering</li>
+<li>The meta/config.txt file is used for global constants such as the site name and the root URL</li>
+</ul>
+</li>
+<li>For each markdown file provided, convert the file to HTML using the template:<ul>
+<li>Page titles are taken from the filename (with <code>.md</code> removed)</li>
+<li>The current page is marked as selected in the index</li>
+</ul>
+</li>
+<li>Generate the landing page:<ul>
+<li>The landing page redirects to the first file in the index by default</li>
+<li>Other files are accessible by using the left-hand menu after navigating to the first file</li>
+<li>You can also add the LANDING directive to the config.txt file to set a custom landing page instead</li>
+<li>The landing page is accessible by clicking on the site name in the menu</li>
+</ul>
+</li>
+</ol>
+<h2>Notes</h2>
+<ul>
+<li>Images need to be in the <code>html</code> directory, otherwise they won't be visible.</li>
+</ul>
+<h3>Config file syntax</h3>
+<p>Config files have the following syntax (the &quot;SITENAME&quot; and &quot;ROOT&quot; variables are required):</p>
+<pre><code>SITENAME=Site Name
+ROOT=http://localhost:2000
+LANDING=http://localhost:2000/custom-landing-page.html
+</code></pre>
+<p>The string <code>x</code> on the left hand of the <code>=</code> is turned into the variable <code>!!!x!!!</code> in the global replacements dictionary and is used to fill parameters of the HTML template. Any line without a <code>=</code> character will be skipped.</p>
+<ul>
+<li><code>SITENAME</code>: The name of the site. Will be used in the left-hand menu header</li>
+<li><code>ROOT</code>: The root URL for the site, is used in the template file to prefix URLs for static content</li>
+<li><code>LANDING</code>: If not present, will generate the redirect index.html page at the top level, allowing the user to provide their own custom landing page</li>
+</ul>
+</div>
+        </div>
+
+        <footer class="footer" id="mainfooter">
+            <p
+                xmlns:cc="http://creativecommons.org/ns#"
+                xmlns:dct="http://purl.org/dc/terms/"
+            >
+                <a
+                    property="dct:title"
+                    rel="cc:attributionURL"
+                    href="https://benrosenberg.info"
+                    class="link-problem"
+                    >benrosenberg.info</a
+                >
+                by <span property="cc:attributionName">Ben Rosenberg</span> is
+                licensed under
+                <a
+                    href="https://creativecommons.org/licenses/by/4.0/?ref=chooser-v1"
+                    target="_blank"
+                    rel="license noopener noreferrer"
+                    style="display: inline-block"
+                    class="link-problem"
+                    >CC BY 4.0<img
+                        class="cc-svg"
+                        style="
+                            height: 20px !important;
+                            margin-left: 3px;
+                            vertical-align: middle;
+                        "
+                        src="http://localhost:2000/images/cc_dark.svg"
+                        alt="" /><img
+                        class="by-svg"
+                        style="
+                            height: 20px !important;
+                            margin-left: 3px;
+                            vertical-align: middle;
+                        "
+                        src="http://localhost:2000/images/by_dark.svg"
+                        alt=""
+                /></a>
+            </p>
+        </footer>
+        <script src="http://localhost:2000/meta/menu.js"></script>
+        <script src="http://localhost:2000/meta/theme.js"></script>
+        <script>
+            window.onload = function () {
+                hljs.highlightAll();
+            };
+        </script>
+    </body>
+</html>

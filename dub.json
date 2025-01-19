@@ -1,0 +1,10 @@
+{
+    "authors": ["Ben Rosenberg"],
+    "copyright": "Copyright © 2025, Ben Rosenberg",
+    "dependencies": {
+        "commonmark-d": "~>1.0.10"
+    },
+    "description": "static site generator for course notes",
+    "license": "MIT",
+    "name": "course-notes-ssg"
+}

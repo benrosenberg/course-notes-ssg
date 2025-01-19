@@ -1,0 +1,16 @@
+.dub
+docs.json
+__dummy.html
+docs/
+/course-notes-ssg
+course-notes-ssg.so
+course-notes-ssg.dylib
+course-notes-ssg.dll
+course-notes-ssg.a
+course-notes-ssg.lib
+course-notes-ssg-test-*
+*.exe
+*.pdb
+*.o
+*.obj
+*.lst
