@@ -2,7 +2,12 @@
 
 Simple static site generator for course notes.
 
-Takes one markdown file for each lecture.
+Can be used for other things too probably, but I created this for the course notes I was taking at the time and its minimal feature set is best for self-contained things like a set of sequential lecture notes.
+
+Links: 
+
+- [GitHub link](https://github.com/benrosenberg/course-notes-ssg)
+- [Example site with real course notes](https://benrosenberg.info/posts/CSCI-260-notes/)
 
 ## Expected file structure
 
