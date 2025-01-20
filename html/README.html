@@ -139,7 +139,13 @@ LANDING=http://localhost:2000/custom-landing-page.html
 <ul>
 <li><code>SITENAME</code>: The name of the site. Will be used in the left-hand menu header</li>
 <li><code>ROOT</code>: The root URL for the site, is used in the template file to prefix URLs for static content</li>
-<li><code>LANDING</code>: If not present, will generate the redirect index.html page at the top level, allowing the user to provide their own custom landing page</li>
+<li><code>LANDING</code>: If not present, will generate the redirect index.html page at the top level; otherwise, will prepend the <code>ROOT</code> variable to the value of the user-provided landing page variable to serve as a custom landing page</li>
+</ul>
+<h3>More complex modifications?</h3>
+<p>Feel free to fork this repository and modify the code as needed.</p>
+<ul>
+<li>This project is written in <a href="https://dlang.org/">D</a> and was compiled with v2.109.1 of the <a href="https://dlang.org/dmd-windows.html">DMD64 D Compiler for Windows</a></li>
+<li>It depends on <a href="https://code.dlang.org/packages/commonmark-d?tab=info"><code>commonmark-d</code></a>, so you will need to install that via the <code>dub</code> package manager</li>
 </ul>
 </div>
         </div>
