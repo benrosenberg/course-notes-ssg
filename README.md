@@ -2,11 +2,16 @@
 
 Simple static site generator for course notes.
 
-Takes one markdown file for each lecture.
+Can be used for other things too probably, but I created this for the course notes I was taking at the time and its minimal feature set is best for self-contained things like a set of sequential lecture notes.
+
+Links: 
+
+- [GitHub link](https://github.com/benrosenberg/course-notes-ssg)
+- [Example site with real course notes](https://benrosenberg.info/posts/CSCI-260-notes/)
 
 ## Expected file structure
 
-```
+```plaintext
 .
 ├── html
 │   └── <html files will be generated here>
@@ -69,4 +74,11 @@ The string `x` on the left hand of the `=` is turned into the variable `!!!x!!!`
 
 - `SITENAME`: The name of the site. Will be used in the left-hand menu header
 - `ROOT`: The root URL for the site, is used in the template file to prefix URLs for static content
-- `LANDING`: If not present, will generate the redirect index.html page at the top level, allowing the user to provide their own custom landing page
+- `LANDING`: If not present, will generate the redirect index.html page at the top level; otherwise, will prepend the `ROOT` variable to the value of the user-provided landing page variable to serve as a custom landing page
+
+### More complex modifications?
+
+Feel free to fork this repository and modify the code as needed.
+
+- This project is written in [D](https://dlang.org/) and was compiled with v2.109.1 of the [DMD64 D Compiler for Windows](https://dlang.org/dmd-windows.html)
+- It depends on [`commonmark-d`](https://code.dlang.org/packages/commonmark-d?tab=info), so you will need to install that via the `dub` package manager
